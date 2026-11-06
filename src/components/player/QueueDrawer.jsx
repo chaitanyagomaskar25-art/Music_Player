@@ -175,7 +175,7 @@ export function QueueDrawer() {
                         <button
                           type="button"
                           onClick={() => moveInQueue(idx, idx - 1)}
-                          className="p-1 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors opacity-0 group-hover:opacity-100"
+                          className="p-1 rounded-md text-slate-400 sm:text-slate-500 hover:text-white hover:bg-white/10 transition-colors sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
                           title="Move up"
                         >
                           <ChevronUp className="w-3.5 h-3.5" />
@@ -185,7 +185,7 @@ export function QueueDrawer() {
                         <button
                           type="button"
                           onClick={() => moveInQueue(idx, idx + 1)}
-                          className="p-1 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors opacity-0 group-hover:opacity-100"
+                          className="p-1 rounded-md text-slate-400 sm:text-slate-500 hover:text-white hover:bg-white/10 transition-colors sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
                           title="Move down"
                         >
                           <ChevronDown className="w-3.5 h-3.5" />
@@ -197,7 +197,7 @@ export function QueueDrawer() {
                         <button
                           type="button"
                           onClick={() => removeFromQueue(idx)}
-                          className="p-1 rounded-md text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors opacity-0 group-hover:opacity-100"
+                          className="p-1 rounded-md text-slate-400 sm:text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100"
                           title="Remove from queue"
                         >
                           <X className="w-3.5 h-3.5" />

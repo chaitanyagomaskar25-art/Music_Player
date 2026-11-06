@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate, useOutletContext } from 'react-router-dom';
 import {
   Library,
   Disc,
@@ -36,6 +36,7 @@ export function LibraryPage() {
   const activePlaylistId = searchParams.get('playlist');
   const tabParam = searchParams.get('tab');
   const [tab, setTab] = useState(tabParam || (activePlaylistId ? 'playlists' : 'all'));
+  const { searchQuery: globalSearch = '' } = useOutletContext() || {};
   const navigate = useNavigate();
 
   // Modals state
@@ -83,26 +84,28 @@ export function LibraryPage() {
   // Available songs catalog including imported local tracks
   const songCatalog = allSongs || songs;
 
-  // Filter songs in playlist by playlist search
+  // Filter songs in playlist by playlist search or global search
+  const effectivePlaylistSearch = (playlistSearch || globalSearch).trim();
   const playlistSongs = selectedPlaylist
     ? songCatalog
         .filter((s) => selectedPlaylist.songIds.includes(s.id))
         .filter(
           (s) =>
-            !playlistSearch.trim() ||
-            s.title.toLowerCase().includes(playlistSearch.toLowerCase()) ||
-            s.artist.toLowerCase().includes(playlistSearch.toLowerCase()) ||
-            s.genre.toLowerCase().includes(playlistSearch.toLowerCase())
+            !effectivePlaylistSearch ||
+            s.title.toLowerCase().includes(effectivePlaylistSearch.toLowerCase()) ||
+            s.artist.toLowerCase().includes(effectivePlaylistSearch.toLowerCase()) ||
+            s.genre.toLowerCase().includes(effectivePlaylistSearch.toLowerCase())
         )
     : [];
 
-  // Filter local songs by local search
+  // Filter local songs by local search or global search
+  const effectiveLocalSearch = (localSearch || globalSearch).trim();
   const filteredLocalSongs = (localSongs || []).filter(
     (s) =>
-      !localSearch.trim() ||
-      s.title.toLowerCase().includes(localSearch.toLowerCase()) ||
-      s.artist.toLowerCase().includes(localSearch.toLowerCase()) ||
-      (s.fileFormat && s.fileFormat.toLowerCase().includes(localSearch.toLowerCase()))
+      !effectiveLocalSearch ||
+      s.title.toLowerCase().includes(effectiveLocalSearch.toLowerCase()) ||
+      s.artist.toLowerCase().includes(effectiveLocalSearch.toLowerCase()) ||
+      (s.fileFormat && s.fileFormat.toLowerCase().includes(effectiveLocalSearch.toLowerCase()))
   );
 
   // Local songs statistics

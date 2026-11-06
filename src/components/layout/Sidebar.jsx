@@ -20,10 +20,12 @@ import {
 import { playlists as editorialPlaylists } from '../../data/musicData';
 import { usePlayer } from '../../hooks/usePlayer';
 import { CreatePlaylistModal } from '../common/CreatePlaylistModal';
+import { ConfirmDialog } from '../common/ConfirmDialog';
 
 export function Sidebar({ isOpen, onClose, onSearchFocus }) {
   const { customPlaylists, deletePlaylist, importLocalAudioFiles, localSongs, favorites } = usePlayer();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [playlistToDelete, setPlaylistToDelete] = useState(null);
   const fileInputRef = React.useRef(null);
   const navigate = useNavigate();
 
@@ -207,7 +209,7 @@ export function Sidebar({ isOpen, onClose, onSearchFocus }) {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    deletePlaylist(pl.id);
+                    setPlaylistToDelete(pl);
                   }}
                   className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-400 transition-opacity"
                   title="Delete playlist"
@@ -256,6 +258,21 @@ export function Sidebar({ isOpen, onClose, onSearchFocus }) {
       <CreatePlaylistModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      <ConfirmDialog
+        isOpen={!!playlistToDelete}
+        onClose={() => setPlaylistToDelete(null)}
+        onConfirm={() => {
+          if (playlistToDelete) {
+            deletePlaylist(playlistToDelete.id);
+            setPlaylistToDelete(null);
+          }
+        }}
+        title="Delete Playlist"
+        message={`Are you sure you want to delete "${playlistToDelete?.title}"? All tracks will be removed from this playlist.`}
+        confirmText="Delete Playlist"
+        isDanger
       />
     </div>
   );

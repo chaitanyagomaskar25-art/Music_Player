@@ -35,3 +35,19 @@ export function formatNumber(num) {
   }
   return num.toString();
 }
+
+/**
+ * Formats seconds into human-readable long duration string (e.g. "1 hr 25 min", "45 min")
+ * @param {number} seconds
+ * @returns {string}
+ */
+export function formatDurationLong(seconds) {
+  if (!seconds || isNaN(seconds)) return '0 min';
+  const totalSeconds = Math.max(0, Math.floor(seconds));
+  const hrs = Math.floor(totalSeconds / 3600);
+  const mins = Math.floor((totalSeconds % 3600) / 60);
+  if (hrs > 0) {
+    return `${hrs} hr ${mins} min`;
+  }
+  return `${mins} min`;
+}

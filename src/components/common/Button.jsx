@@ -4,6 +4,7 @@ export function Button({
   children,
   variant = 'primary',
   size = 'md',
+  type = 'button',
   className = '',
   icon: Icon,
   disabled = false,
@@ -32,6 +33,7 @@ export function Button({
 
   return (
     <button
+      type={type}
       disabled={disabled}
       className={`${baseStyles} ${variants[variant] || variants.primary} ${chosenSize} ${className}`}
       {...props}

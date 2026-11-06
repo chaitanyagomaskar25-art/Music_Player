@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Heart, Play, Shuffle, Search, Music, Sparkles, Clock } from 'lucide-react';
 import { usePlayer } from '../hooks/usePlayer';
 import { SongRow } from '../components/music/SongRow';
@@ -10,6 +10,7 @@ import { formatTime } from '../utils/formatters';
 export function FavoritesPage() {
   const { favorites, playSong, isShuffle, toggleShuffle, allSongs } = usePlayer();
   const [search, setSearch] = useState('');
+  const { searchQuery: globalSearch = '' } = useOutletContext() || {};
   const navigate = useNavigate();
 
   // Get favorite songs from combined catalog (including imported local tracks)
@@ -18,10 +19,11 @@ export function FavoritesPage() {
     return catalog.filter((song) => favorites.includes(song.id));
   }, [allSongs, favorites]);
 
-  // Filter by local search
+  // Filter by local or global search
   const filteredFavoriteSongs = useMemo(() => {
-    if (!search.trim()) return favoriteSongs;
-    const q = search.toLowerCase().trim();
+    const query = search.trim() || globalSearch.trim();
+    if (!query) return favoriteSongs;
+    const q = query.toLowerCase();
     return favoriteSongs.filter(
       (s) =>
         s.title.toLowerCase().includes(q) ||
@@ -29,7 +31,7 @@ export function FavoritesPage() {
         s.album.toLowerCase().includes(q) ||
         s.genre.toLowerCase().includes(q)
     );
-  }, [favoriteSongs, search]);
+  }, [favoriteSongs, search, globalSearch]);
 
   // Calculate total duration
   const totalSeconds = favoriteSongs.reduce((acc, s) => acc + (s.duration || 0), 0);

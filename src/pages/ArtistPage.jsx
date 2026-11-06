@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Play, CheckCircle2, Heart, Users, Disc, ArrowLeft, Share2 } from 'lucide-react';
 import { artists, songs, albums } from '../data/musicData';
 import { usePlayer } from '../hooks/usePlayer';
@@ -10,6 +10,7 @@ import { getStorageItem, setStorageItem } from '../utils/storage';
 
 export function ArtistPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { playSong, addToast, allSongs } = usePlayer();
 
   const artist = artists.find((a) => a.id === id) || artists[0];
@@ -42,13 +43,14 @@ export function ArtistPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12 select-none animate-page-enter">
       {/* Back button */}
-      <Link
-        to={-1}
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back</span>
-      </Link>
+      </button>
 
       {/* Artist Hero Banner */}
       <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-surface-charcoal via-brand-950/40 to-surface-card border border-brand-500/20 p-6 sm:p-10 shadow-2xl flex flex-col md:flex-row items-center gap-8">

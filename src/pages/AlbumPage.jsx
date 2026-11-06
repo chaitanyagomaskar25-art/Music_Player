@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Play, Disc, ArrowLeft, Clock, Music2 } from 'lucide-react';
 import { albums, songs, artists } from '../data/musicData';
 import { usePlayer } from '../hooks/usePlayer';
@@ -8,6 +8,7 @@ import { Button } from '../components/common/Button';
 
 export function AlbumPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { playSong, allSongs } = usePlayer();
 
   const album = albums.find((a) => a.id === id) || albums[0];
@@ -18,13 +19,14 @@ export function AlbumPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12 select-none animate-page-enter">
       {/* Back button */}
-      <Link
-        to={-1}
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back</span>
-      </Link>
+      </button>
 
       {/* Album Header */}
       <div className="relative overflow-hidden flex flex-col md:flex-row items-center md:items-end gap-6 bg-surface-card p-6 sm:p-10 rounded-3xl border border-surface-border shadow-2xl">
