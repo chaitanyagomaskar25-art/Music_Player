@@ -5,12 +5,14 @@ import { Card } from '../common/Card';
 import { SongActionsDropdown } from './SongActionsDropdown';
 import { formatTime } from '../../utils/formatters';
 
-export function SongCard({ song, playlist = null }) {
+export const SongCard = React.memo(function SongCard({ song, playlist = null, index }) {
   const { currentSong, isPlaying, playSong, togglePlay, isFavorite, toggleFavorite } = usePlayer();
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isCurrent = currentSong?.id === song.id;
   const isSongPlaying = isCurrent && isPlaying;
   const favorited = isFavorite(song.id);
+  const isFirstColumn = typeof index === 'number' && index % 2 === 0;
 
   const handlePlayClick = (e) => {
     e.stopPropagation();
@@ -24,17 +26,19 @@ export function SongCard({ song, playlist = null }) {
   return (
     <Card
       onClick={handlePlayClick}
-      className={`group cursor-pointer flex flex-col p-3 sm:p-3.5 rounded-3xl transition-all duration-300 border focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none ${
+      className={`group cursor-pointer flex flex-col p-3 sm:p-3.5 rounded-3xl transition-all duration-300 border focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none relative ${
+        isMenuOpen ? 'z-40 ring-2 ring-brand-400/50 dark:ring-brand-500/50 shadow-2xl' : 'z-0'
+      } ${
         isCurrent
-          ? 'bg-brand-500/10 border-brand-500/40 shadow-glow-purple -translate-y-1'
-          : 'bg-surface-card hover:bg-surface-hover border-surface-border hover:border-brand-500/30 hover:-translate-y-1.5 hover:shadow-2xl'
+          ? 'bg-slate-950 text-white border-slate-900 ring-2 ring-brand-500 shadow-xl text-white-force dark:bg-brand-500/10 dark:border-brand-500/40 -translate-y-1'
+          : 'bg-white dark:bg-surface-card hover:bg-slate-50 dark:hover:bg-surface-hover border-slate-200 dark:border-surface-border hover:border-brand-500/40 hover:-translate-y-1.5 hover:shadow-xl'
       }`}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter') handlePlayClick(e);
       }}
     >
-      <div className="relative aspect-square w-full rounded-2xl overflow-hidden mb-3 bg-surface-panel shadow-md">
+      <div className="relative aspect-square w-full rounded-2xl overflow-hidden mb-3 bg-slate-100 dark:bg-surface-panel shadow-md">
         {!imageLoaded && (
           <div className="absolute inset-0 bg-white/5 animate-pulse rounded-2xl" />
         )}
@@ -59,7 +63,7 @@ export function SongCard({ song, playlist = null }) {
           <button
             type="button"
             onClick={handlePlayClick}
-            className={`w-12 h-12 rounded-full bg-gradient-to-tr from-brand-600 via-brand-500 to-brand-pink text-white flex items-center justify-center shadow-glow-purple transform transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none ${
+            className={`w-12 h-12 rounded-full bg-gradient-to-tr from-brand-600 via-brand-500 to-brand-pink text-white flex items-center justify-center shadow-glow-purple transform transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none text-white-force ${
               isSongPlaying ? 'scale-100 translate-y-0' : 'translate-y-2 group-hover:translate-y-0'
             }`}
             aria-label={isSongPlaying ? 'Pause song' : 'Play song'}
@@ -83,7 +87,7 @@ export function SongCard({ song, playlist = null }) {
           className={`absolute top-2.5 right-2.5 p-2 rounded-full bg-black/60 backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-90 ${
             favorited
               ? 'opacity-100 text-brand-pink'
-              : 'opacity-0 group-hover:opacity-100 text-white hover:text-brand-pink'
+              : 'opacity-90 sm:opacity-0 sm:group-hover:opacity-100 text-white hover:text-brand-pink'
           }`}
           aria-label={favorited ? 'Remove favourite' : 'Add to favourites'}
           title={favorited ? 'Remove from favorites' : 'Add to favorites'}
@@ -92,7 +96,7 @@ export function SongCard({ song, playlist = null }) {
         </button>
 
         {/* Duration badge on image bottom-right */}
-        <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/70 backdrop-blur-md text-[10px] font-mono font-bold text-white/90 shadow-sm pointer-events-none">
+        <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/70 backdrop-blur-md text-[10px] font-mono font-bold text-white shadow-sm pointer-events-none text-white-force">
           {formatTime(song.duration)}
         </div>
       </div>
@@ -102,23 +106,25 @@ export function SongCard({ song, playlist = null }) {
         <div className="min-w-0 flex-1">
           <h3
             className={`font-bold text-sm truncate transition-colors ${
-              isCurrent ? 'text-brand-300' : 'text-slate-100 group-hover:text-white'
+              isCurrent ? 'text-white font-black dark:text-brand-300' : 'text-slate-900 dark:text-slate-100 group-hover:text-brand-600 dark:group-hover:text-white'
             }`}
           >
             {song.title}
           </h3>
-          <p className="text-xs text-slate-400 truncate mt-0.5 group-hover:text-slate-300">
+          <p className={`text-xs truncate mt-0.5 ${
+            isCurrent ? 'text-slate-300 dark:text-slate-400 font-medium' : 'text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-300'
+          }`}>
             {song.artist}
           </p>
           <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium mt-1">
-            <span className="text-brand-pink/80 truncate">{song.genre}</span>
-            <span className="font-mono text-slate-400">{formatTime(song.duration)}</span>
+            <span className="text-brand-pink font-semibold truncate">{song.genre}</span>
+            <span className="font-mono text-slate-500 dark:text-slate-400">{formatTime(song.duration)}</span>
           </div>
         </div>
         <div onClick={(e) => e.stopPropagation()} className="pt-0.5">
-          <SongActionsDropdown song={song} />
+          <SongActionsDropdown song={song} isFirstColumn={isFirstColumn} onOpenChange={setIsMenuOpen} />
         </div>
       </div>
     </Card>
   );
-}
+});

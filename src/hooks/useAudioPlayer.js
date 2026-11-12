@@ -142,19 +142,28 @@ export function useAudioPlayer({ onEnded, onError } = {}) {
       filtersRef.current = { bass, lowMid, mid, highMid, treble };
       analyserNodeRef.current = analyser;
 
-      // Connect HTML5 audio element through Web Audio filter chain
-      audioRef.current.crossOrigin = 'anonymous';
-      const source = ctx.createMediaElementSource(audioRef.current);
-      sourceNodeRef.current = source;
+      // Only route through Web Audio createMediaElementSource for local or same-origin tracks
+      // Remote cross-origin tracks (e.g. streaming CDN) must play directly via HTML5 Audio to avoid CORS policy blocks & silence
+      const src = audioRef.current.currentSrc || audioRef.current.src || '';
+      const isLocalOrSameOrigin =
+        src.startsWith('blob:') ||
+        src.startsWith('data:') ||
+        src.startsWith('/') ||
+        (src && typeof window !== 'undefined' && new URL(src, window.location.href).origin === window.location.origin);
 
-      // Chain: source -> bass -> lowMid -> mid -> highMid -> treble -> analyser -> destination
-      source.connect(bass);
-      bass.connect(lowMid);
-      lowMid.connect(mid);
-      mid.connect(highMid);
-      highMid.connect(treble);
-      treble.connect(analyser);
-      analyser.connect(ctx.destination);
+      if (isLocalOrSameOrigin && !sourceNodeRef.current) {
+        const source = ctx.createMediaElementSource(audioRef.current);
+        sourceNodeRef.current = source;
+
+        // Chain: source -> bass -> lowMid -> mid -> highMid -> treble -> analyser -> destination
+        source.connect(bass);
+        bass.connect(lowMid);
+        lowMid.connect(mid);
+        mid.connect(highMid);
+        highMid.connect(treble);
+        treble.connect(analyser);
+        analyser.connect(ctx.destination);
+      }
     } catch (e) {
       console.warn('Web Audio API Equalizer fallback active:', e);
     }
@@ -217,7 +226,6 @@ export function useAudioPlayer({ onEnded, onError } = {}) {
     if (!audioRef.current) {
       const audio = new Audio();
       audio.preload = 'metadata';
-      audio.crossOrigin = 'anonymous';
       audioRef.current = audio;
     }
 
@@ -280,12 +288,14 @@ export function useAudioPlayer({ onEnded, onError } = {}) {
 
     const handleError = (e) => {
       const err = audio.error;
+      // Aborted error occurs naturally when switching songs; ignore it
+      if (err && err.code === MediaError.MEDIA_ERR_ABORTED) {
+        return;
+      }
+
       let errorMsg = 'Audio playback error';
       if (err) {
         switch (err.code) {
-          case MediaError.MEDIA_ERR_ABORTED:
-            errorMsg = 'Audio playback was aborted';
-            break;
           case MediaError.MEDIA_ERR_NETWORK:
             errorMsg = 'Network error while loading audio';
             break;
@@ -350,17 +360,31 @@ export function useAudioPlayer({ onEnded, onError } = {}) {
     setAudioError(null);
     setIsLoading(true);
 
+    // Ensure no crossorigin attribute blocks cross-origin audio
+    if (audio.hasAttribute('crossorigin')) {
+      audio.removeAttribute('crossorigin');
+    }
+
     if (audio.src !== src) {
       audio.src = src;
-      audio.load();
     }
 
     if (autoPlay) {
-      audio.play().catch((err) => {
-        console.warn('Play request interrupted / autoplay prevented:', err);
-        setIsPlaying(false);
-        setIsLoading(false);
-      });
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            if (err.name !== 'AbortError') {
+              console.warn('Play request interrupted / autoplay prevented:', err);
+            }
+            setIsPlaying(false);
+            setIsLoading(false);
+          });
+      }
     }
   }, []);
 
@@ -371,10 +395,19 @@ export function useAudioPlayer({ onEnded, onError } = {}) {
     if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
       audioCtxRef.current.resume().catch(() => {});
     }
-    audioRef.current.play().catch((err) => {
-      console.warn('Play failed:', err);
-      setIsPlaying(false);
-    });
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((err) => {
+          if (err.name !== 'AbortError') {
+            console.warn('Play failed:', err);
+          }
+          setIsPlaying(false);
+        });
+    }
   }, [initWebAudio]);
 
   // Pause

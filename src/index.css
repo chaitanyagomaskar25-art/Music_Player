@@ -19,6 +19,7 @@ html.light body {
 
 html.light .bg-surface-base,
 html.light .bg-surface-base\/80,
+html.light .bg-surface-base\/85,
 html.light .bg-surface-base\/90,
 html.light .bg-surface-base\/95 {
   background-color: #f8fafc !important;
@@ -51,7 +52,7 @@ html.light .bg-surface-hover {
 html.light .border-surface-border,
 html.light .border-surface-border\/60,
 html.light .border-surface-border\/40 {
-  border-color: rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
 }
 
 html.light .text-white {
@@ -59,23 +60,23 @@ html.light .text-white {
 }
 
 html.light .text-slate-100 {
-  color: #1e293b !important;
+  color: #0f172a !important;
 }
 
 html.light .text-slate-200 {
-  color: #334155 !important;
+  color: #1e293b !important;
 }
 
 html.light .text-slate-300 {
-  color: #475569 !important;
+  color: #334155 !important;
 }
 
 html.light .text-slate-400 {
-  color: #64748b !important;
+  color: #475569 !important;
 }
 
 html.light .text-slate-500 {
-  color: #94a3b8 !important;
+  color: #64748b !important;
 }
 
 html.light .hover\:text-white:hover {
@@ -84,12 +85,76 @@ html.light .hover\:text-white:hover {
 
 html.light .hover\:bg-white\/5:hover,
 html.light .hover\:bg-white\/10:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
+  background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 html.light .bg-white\/5,
 html.light .bg-white\/10 {
-  background-color: rgba(0, 0, 0, 0.04) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Light Mode Overrides for Gradients and Hero Spotlight Banners */
+html.light .from-surface-charcoal {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.light .via-brand-950\/40 {
+  --tw-gradient-to: rgba(250, 245, 255, 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #faf5ff, var(--tw-gradient-to) !important;
+}
+
+html.light .to-surface-card {
+  --tw-gradient-to: #f8fafc var(--tw-gradient-to-position) !important;
+}
+
+html.light .from-brand-950\/60 {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.light .via-purple-950\/30 {
+  --tw-gradient-to: rgba(243, 232, 255, 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #f3e8ff, var(--tw-gradient-to) !important;
+}
+
+html.light .border-brand-500\/20,
+html.light .border-brand-500\/30 {
+  border-color: rgba(168, 85, 247, 0.25) !important;
+}
+
+/* Ensure white text remains white on dark containers, action buttons, artwork badges, and gradients in light mode */
+html.light .text-white-force,
+html.light .text-white-force *,
+html.light .bg-slate-950,
+html.light .bg-slate-950 .text-white,
+html.light .bg-slate-900,
+html.light .bg-slate-900 .text-white,
+html.light .bg-purple-950,
+html.light .bg-purple-950 .text-white,
+html.light [class*="bg-slate-950"] .text-white,
+html.light [class*="bg-slate-900"] .text-white,
+html.light button.bg-brand-600,
+html.light button.bg-brand-500,
+html.light button[class*="from-brand-"],
+html.light button[class*="from-brand-"] *,
+html.light [class*="bg-gradient-to-r"][class*="from-brand-"] *,
+html.light [class*="bg-gradient-to-tr"][class*="from-brand-"] *,
+html.light .bg-brand-600,
+html.light .bg-brand-600 *,
+html.light [class*="bg-black"] * {
+  color: #ffffff !important;
+}
+
+html.light .bg-slate-950 .text-slate-300,
+html.light .bg-slate-900 .text-slate-300,
+html.light .bg-slate-950 .text-slate-400,
+html.light .bg-slate-900 .text-slate-400,
+html.light .text-white-force .text-slate-300,
+html.light .text-white-force .text-slate-400 {
+  color: #cbd5e1 !important;
 }
 
 html.light ::-webkit-scrollbar-thumb {

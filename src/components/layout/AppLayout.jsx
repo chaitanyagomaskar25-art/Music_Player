@@ -115,7 +115,7 @@ export function AppLayout() {
         />
 
         {/* Scrollable Viewport */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 py-6 pb-36 md:pb-28">
+        <main className="flex-1 overflow-y-auto px-3 sm:px-6 md:px-10 py-4 sm:py-6 pb-40 md:pb-28">
           <Outlet context={{ searchQuery }} />
         </main>
 

@@ -21,6 +21,7 @@ import { SongRow } from '../components/music/SongRow';
 import { SongCard } from '../components/music/SongCard';
 import { Button } from '../components/common/Button';
 import { EmptyState } from '../components/common/EmptyState';
+import { PlaylistCard } from '../components/music/PlaylistCard';
 import { formatNumber } from '../utils/formatters';
 
 export function HomePage() {
@@ -88,15 +89,15 @@ export function HomePage() {
       <section className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-600 dark:text-brand-300 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-brand-pink" />
               Melody Daily Curations
             </span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-            {greeting}, <span className="bg-gradient-to-r from-brand-300 via-white to-brand-pink bg-clip-text text-transparent">Alex</span>
+          <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            {greeting}, <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-brand-pink dark:from-brand-300 dark:via-white dark:to-brand-pink bg-clip-text text-transparent">Alex</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
             Pick up where you left off or discover handpicked audio gems across 28 tracks.
           </p>
         </div>
@@ -108,7 +109,7 @@ export function HomePage() {
               key={genre}
               type="button"
               onClick={() => navigate(`/explore?genre=${genre.toLowerCase()}`)}
-              className="px-3 py-1.5 rounded-xl bg-surface-card hover:bg-surface-hover border border-surface-border text-xs font-medium text-slate-300 hover:text-white transition-all shadow-subtle hover:border-brand-500/40"
+              className="px-3 py-1.5 rounded-xl bg-surface-card hover:bg-surface-hover border border-surface-border text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-subtle hover:border-brand-500/40"
             >
               {genre}
             </button>
@@ -118,14 +119,14 @@ export function HomePage() {
 
       {/* 2. Featured Music Banner (Only shown if search isn't active) */}
       {!searchQuery && (
-        <section className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-surface-charcoal via-brand-950/40 to-surface-card border border-brand-500/20 shadow-2xl p-6 sm:p-8 md:p-10 group">
-          <div className="absolute top-0 right-10 w-96 h-96 bg-brand-600/15 rounded-full blur-3xl pointer-events-none group-hover:bg-brand-600/25 transition-all duration-700" />
+        <section className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-white via-purple-50/70 to-pink-50/50 dark:from-surface-charcoal dark:via-brand-950/40 dark:to-surface-card border border-purple-200/80 dark:border-brand-500/20 shadow-xl shadow-purple-500/5 dark:shadow-2xl p-4 sm:p-8 md:p-10 group transition-all duration-300">
+          <div className="absolute top-0 right-10 w-96 h-96 bg-brand-500/10 dark:bg-brand-600/15 rounded-full blur-3xl pointer-events-none group-hover:bg-brand-500/20 dark:group-hover:bg-brand-600/25 transition-all duration-700" />
           <div className="absolute -bottom-10 left-1/3 w-80 h-80 bg-brand-pink/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 sm:gap-8">
             <div className="max-w-xl space-y-4">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-brand-100/90 text-brand-700 border border-brand-200/80 dark:bg-brand-500/20 dark:text-brand-300 dark:border-brand-500/30 text-xs font-bold uppercase tracking-wider">
                   Featured Album Spotlight
                 </span>
                 <span className="text-xs text-brand-pink font-semibold">
@@ -134,30 +135,30 @@ export function HomePage() {
               </div>
 
               <div className="space-y-1.5">
-                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-none drop-shadow-md">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none drop-shadow-sm dark:drop-shadow-md">
                   {featuredSong.title}
                 </h2>
-                <p className="text-base sm:text-lg text-slate-300 font-medium">
-                  By <span className="text-white font-bold">{featuredSong.artist}</span> •{' '}
-                  <span className="text-slate-400">{featuredSong.album}</span>
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-medium">
+                  By <span className="text-slate-900 dark:text-white font-bold">{featuredSong.artist}</span> •{' '}
+                  <span className="text-slate-500 dark:text-slate-400">{featuredSong.album}</span>
                 </p>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-2 max-w-lg">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2 max-w-lg">
                 Experience high-fidelity spatial textures, ethereal arpeggios, and resonant beats meticulously mixed in 24-bit studio quality.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
                 <Button
                   onClick={() => playSong(featuredSong, songs)}
                   icon={Play}
                   size="lg"
-                  className="rounded-full px-8 bg-gradient-to-r from-brand-600 via-brand-500 to-brand-pink shadow-glow-purple hover:scale-105 active:scale-95 transition-all"
+                  className="rounded-full px-7 sm:px-8 bg-gradient-to-r from-brand-600 via-brand-500 to-brand-pink shadow-glow-purple hover:scale-105 active:scale-95 transition-all text-white-force"
                 >
                   {currentSong?.id === featuredSong.id && isPlaying ? 'Now Playing' : 'Play Featured'}
                 </Button>
-                <div className="flex items-center gap-2 text-xs text-slate-400 font-mono bg-white/5 px-3 py-2 rounded-xl border border-white/5">
-                  <Headphones className="w-3.5 h-3.5 text-brand-400" />
+                <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 font-mono bg-slate-100/80 dark:bg-white/5 px-3 py-2 rounded-xl border border-slate-200/80 dark:border-white/5">
+                  <Headphones className="w-3.5 h-3.5 text-brand-500 dark:text-brand-400" />
                   <span>{formatNumber(featuredSong.plays)} streams</span>
                 </div>
               </div>
@@ -165,18 +166,18 @@ export function HomePage() {
 
             {/* Hero Artwork with Glowing Vinyl Frame */}
             <div className="shrink-0 relative group/art mx-auto md:mx-0">
-              <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-brand-500/30 group-hover/art:scale-105 group-hover/art:ring-brand-500/60 transition-all duration-500 relative">
+              <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-brand-400/30 dark:ring-brand-500/30 group-hover/art:scale-105 group-hover/art:ring-brand-500/60 transition-all duration-500 relative">
                 <img
                   src={featuredSong.coverArt}
                   alt={featuredSong.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white/90 font-medium">
-                  <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md">
+                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white-force font-medium">
+                  <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white-force">
                     24-bit Lossless
                   </span>
-                  <span className="font-mono text-[11px]">
+                  <span className="font-mono text-[11px] text-white-force opacity-90">
                     2024
                   </span>
                 </div>
@@ -201,7 +202,7 @@ export function HomePage() {
             </div>
 
             {/* Category filter tabs */}
-            <div className="flex items-center gap-1.5 bg-surface-card p-1 rounded-2xl border border-surface-border self-start sm:self-auto text-xs font-semibold">
+            <div className="flex items-center gap-1.5 bg-surface-card p-1 rounded-2xl border border-surface-border self-start sm:self-auto text-xs font-semibold overflow-x-auto max-w-full scrollbar-none">
               {[
                 { id: 'all', label: 'All' },
                 { id: 'tracks', label: `Tracks (${filteredSongs.length})` },
@@ -414,7 +415,7 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-3.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-3.5">
             {artists.map((artist) => (
               <Link
                 key={artist.id}
@@ -452,14 +453,14 @@ export function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Disc className="w-5 h-5 text-brand-pink" />
-              <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+              <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                 Recommended Playlists
               </h2>
             </div>
             <button
               type="button"
               onClick={() => navigate('/library')}
-              className="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+              className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white flex items-center gap-1 transition-colors"
             >
               <span>View all</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -470,39 +471,13 @@ export function HomePage() {
             {recommendedPlaylists.map((pl) => {
               const plSongs = songs.filter((s) => pl.songIds.includes(s.id));
               return (
-                <div
+                <PlaylistCard
                   key={pl.id}
+                  playlist={pl}
+                  badge={pl.genre || 'Curated Station'}
+                  imageClassName="w-20 h-20"
                   onClick={() => plSongs.length > 0 && playSong(plSongs[0], plSongs)}
-                  className="group relative flex items-center gap-4 p-3.5 bg-surface-card hover:bg-surface-hover border border-surface-border hover:border-brand-500/30 rounded-3xl transition-all duration-300 cursor-pointer shadow-subtle hover:-translate-y-1"
-                >
-                  <div className="relative w-20 h-20 rounded-2xl overflow-hidden shadow-lg bg-surface-panel shrink-0">
-                    <img
-                      src={pl.coverArt}
-                      alt={pl.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-9 h-9 rounded-full bg-brand-500 text-white flex items-center justify-center shadow-glow-purple">
-                        <Play className="w-4 h-4 fill-current ml-0.5" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[10px] font-bold uppercase text-brand-pink tracking-wider">
-                      {pl.genre || 'Playlist'}
-                    </span>
-                    <h3 className="font-bold text-sm text-slate-100 group-hover:text-brand-300 transition-colors truncate mt-0.5">
-                      {pl.title}
-                    </h3>
-                    <p className="text-xs text-slate-400 line-clamp-1 mt-0.5">
-                      {pl.description}
-                    </p>
-                    <p className="text-[11px] text-slate-500 mt-1">
-                      {pl.songIds.length} Tracks
-                    </p>
-                  </div>
-                </div>
+                />
               );
             })}
           </div>

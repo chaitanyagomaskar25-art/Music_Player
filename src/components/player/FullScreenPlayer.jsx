@@ -114,11 +114,11 @@ export function FullScreenPlayer() {
       <div className="absolute inset-0 bg-gradient-to-t from-surface-base via-surface-base/80 to-surface-base/90 pointer-events-none" />
 
       {/* Top Header */}
-      <header className="relative z-10 h-20 px-6 md:px-12 flex items-center justify-between border-b border-white/5">
+      <header className="relative z-10 h-20 px-3 sm:px-6 md:px-12 flex items-center justify-between border-b border-white/5 gap-2">
         <button
           type="button"
           onClick={() => setIsFullScreenOpen(false)}
-          className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 text-xs font-semibold"
+          className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 text-xs font-semibold shrink-0"
         >
           <ChevronDown className="w-5 h-5" />
           <span className="hidden sm:inline">Minimize</span>
@@ -129,18 +129,18 @@ export function FullScreenPlayer() {
           <button
             type="button"
             onClick={() => setActiveTab('player')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'player'
                 ? 'bg-brand-600 text-white shadow-glow-purple'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            Now Playing
+            <span className="hidden sm:inline">Now </span>Playing
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('lyrics')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'lyrics'
                 ? 'bg-brand-600 text-white shadow-glow-purple'
                 : 'text-slate-400 hover:text-white'
@@ -151,14 +151,14 @@ export function FullScreenPlayer() {
           <button
             type="button"
             onClick={() => setActiveTab('visualizer')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
               activeTab === 'visualizer'
                 ? 'bg-brand-600 text-white shadow-glow-purple'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Activity className="w-3.5 h-3.5 text-brand-pink" />
-            <span>Visualizer & EQ</span>
+            <span><span className="hidden sm:inline">Visualizer & </span>EQ</span>
           </button>
         </div>
 
@@ -261,7 +261,7 @@ export function FullScreenPlayer() {
         {activeTab === 'player' && (
           <div className="w-full max-w-md flex flex-col items-center text-center space-y-6">
             {/* Large Album Artwork */}
-            <div className="relative aspect-square w-64 sm:w-80 md:w-96 rounded-3xl overflow-hidden shadow-2xl shadow-black/80 ring-2 ring-white/10 group">
+            <div className="relative aspect-square w-48 xs:w-64 sm:w-80 md:w-96 rounded-3xl overflow-hidden shadow-2xl shadow-black/80 ring-2 ring-white/10 group">
               <img
                 src={currentSong.coverArt}
                 alt={currentSong.title}

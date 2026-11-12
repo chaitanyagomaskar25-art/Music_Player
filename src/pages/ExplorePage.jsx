@@ -11,6 +11,7 @@ import {
   Sparkles,
   ArrowUpDown,
   FilterX,
+  RotateCcw,
   Music,
   Flame,
   Zap,
@@ -117,18 +118,18 @@ export function ExplorePage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12 select-none animate-page-enter">
       {/* 1. Header Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-surface-charcoal via-brand-950/40 to-surface-card p-6 sm:p-10 border border-brand-500/20 shadow-2xl">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-600/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-white via-purple-50/70 to-pink-50/50 dark:from-surface-charcoal dark:via-brand-950/40 dark:to-surface-card p-6 sm:p-10 border border-purple-200/80 dark:border-brand-500/20 shadow-xl shadow-purple-500/5 dark:shadow-2xl transition-all duration-300">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-500/10 dark:bg-brand-600/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-300 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-100/90 dark:bg-brand-500/20 border border-brand-200/80 dark:border-brand-500/30 text-brand-700 dark:text-brand-300 text-xs font-bold uppercase tracking-wider">
             <Compass className="w-3.5 h-3.5 text-brand-pink" />
             Music Catalog & Discovery
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
             Explore All Sounds
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             Browse our handpicked library of 28 studio-mastered tracks across Pop, Hip-Hop, Rock, Electronic, Classical, Jazz, and Lo-Fi.
           </p>
 
@@ -287,9 +288,9 @@ export function ExplorePage() {
       {/* 5. Main Songs Grid / List Display */}
       {filteredAndSortedSongs.length > 0 ? (
         viewMode === 'grid' ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {filteredAndSortedSongs.map((song) => (
-              <SongCard key={song.id} song={song} playlist={filteredAndSortedSongs} />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+            {filteredAndSortedSongs.map((song, idx) => (
+              <SongCard key={song.id} song={song} index={idx} playlist={filteredAndSortedSongs} />
             ))}
           </div>
         ) : (

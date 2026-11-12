@@ -11,7 +11,7 @@ export function MobileNav() {
   ];
 
   return (
-    <nav className="md:hidden flex items-center justify-around h-16 bg-surface-charcoal/95 backdrop-blur-xl border-t border-surface-border z-30 shrink-0 select-none px-2 shadow-2xl">
+    <nav className="fixed bottom-0 left-0 right-0 h-16 md:hidden flex items-center justify-around bg-white/95 dark:bg-surface-charcoal/95 backdrop-blur-xl border-t border-purple-200/80 dark:border-surface-border z-30 shrink-0 select-none px-2 shadow-2xl">
       {items.map((item) => {
         const Icon = item.icon;
         return (
@@ -21,8 +21,8 @@ export function MobileNav() {
             className={({ isActive }) =>
               `flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-2xl transition-all duration-200 ${
                 isActive
-                  ? 'text-brand-300 font-bold bg-brand-500/10 shadow-glow-purple scale-105'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'text-white bg-slate-900 font-bold shadow-md scale-105 text-white-force dark:text-brand-300 dark:bg-brand-500/15 dark:shadow-glow-purple'
+                  : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-slate-200'
               }`
             }
           >

@@ -97,25 +97,25 @@ export function QueueDrawer() {
                 <Sparkles className="w-3.5 h-3.5" />
                 Now Playing
               </p>
-              <div className="flex items-center gap-3.5 p-3.5 bg-gradient-to-r from-brand-600/20 to-brand-pink/10 border border-brand-500/30 rounded-2xl shadow-glow-purple">
+              <div className="flex items-center gap-3.5 p-3.5 bg-slate-950 text-white border border-slate-900 rounded-2xl shadow-xl text-white-force dark:bg-gradient-to-r dark:from-brand-600/20 dark:to-brand-pink/10 dark:border-brand-500/30 dark:shadow-glow-purple">
                 <img
                   src={currentSong.coverArt}
                   alt={currentSong.title}
-                  className="w-12 h-12 rounded-xl object-cover ring-2 ring-brand-500/40 shrink-0"
+                  className="w-12 h-12 rounded-xl object-cover ring-2 ring-brand-400 shadow-md shrink-0"
                 />
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-bold text-white truncate">
                     {currentSong.title}
                   </h4>
-                  <p className="text-xs text-brand-300 truncate mt-0.5">
+                  <p className="text-xs text-slate-300 font-medium truncate mt-0.5">
                     {currentSong.artist}
                   </p>
                 </div>
                 {isPlaying && (
                   <div className="flex items-end gap-0.5 h-4 shrink-0 px-2">
-                    <span className="w-1 h-4 bg-brand-pink rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-1 h-2.5 bg-brand-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-1 h-3.5 bg-brand-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span className="w-1 h-4 bg-brand-400 dark:bg-brand-pink rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-1 h-2.5 bg-brand-300 dark:bg-brand-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-1 h-3.5 bg-brand-200 dark:bg-brand-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 )}
               </div>
@@ -125,7 +125,7 @@ export function QueueDrawer() {
           {/* Up Next List with Reordering */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 Up Next ({queue.length - 1} tracks)
               </p>
               <span className="text-[10px] text-slate-500">
@@ -142,11 +142,13 @@ export function QueueDrawer() {
                     onClick={() => playSong(song)}
                     className={`group flex items-center gap-2.5 p-2 rounded-xl cursor-pointer transition-all ${
                       isCurrent
-                        ? 'bg-white/10 border border-white/10'
-                        : 'hover:bg-white/5 text-slate-300 hover:text-white border border-transparent'
+                        ? 'bg-slate-950 text-white border border-slate-900 shadow-lg text-white-force dark:bg-white/10 dark:text-white dark:border-white/10'
+                        : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white border border-transparent'
                     }`}
                   >
-                    <span className="text-[11px] font-mono text-slate-500 w-5 text-center shrink-0">
+                    <span className={`text-[11px] font-mono w-5 text-center shrink-0 ${
+                      isCurrent ? 'text-brand-400 dark:text-brand-400 font-bold' : 'text-slate-500'
+                    }`}>
                       {idx + 1}
                     </span>
 
@@ -157,10 +159,14 @@ export function QueueDrawer() {
                     />
 
                     <div className="flex-1 min-w-0 pr-1">
-                      <h4 className={`text-xs md:text-sm font-semibold truncate ${isCurrent ? 'text-brand-300' : 'text-slate-200'}`}>
+                      <h4 className={`text-xs md:text-sm font-semibold truncate ${
+                        isCurrent ? 'text-white font-bold dark:text-brand-300' : 'text-slate-800 dark:text-slate-200'
+                      }`}>
                         {song.title}
                       </h4>
-                      <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                      <p className={`text-[11px] truncate mt-0.5 ${
+                        isCurrent ? 'text-slate-300 dark:text-slate-400' : 'text-slate-600 dark:text-slate-400'
+                      }`}>
                         {song.artist}
                       </p>
                     </div>
